@@ -4,6 +4,7 @@ ul {
     padding: 0;
     margin: 0;
     display: flex;
+    justify-content: space-between;
 }
 li {
     display: inline;
@@ -21,6 +22,6 @@ li button {
     cursor: pointer;
 }
 .container{
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
 }

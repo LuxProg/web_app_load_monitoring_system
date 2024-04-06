@@ -1,6 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 # Create your views here.
 
 menu = ['Главная', 'Обратная связь', 'Кто мы?']
@@ -27,6 +26,9 @@ url = {
 
 def index(request):
 
+    if request.method == 'POST':
+        return redirect('/')
+
     return render(request, 'student_work/main.html', context)
 
 
@@ -34,12 +36,18 @@ def whoweare(request):
 
     context['title'] = 'Кто мы?'
 
+    if request.method == 'POST':
+        return redirect('/whoweare/')
+
     return render(request, 'student_work/whoweare.html', context)
 
 
 def feedback(request):
 
     context['title'] = 'Обратная связь'
+
+    if request.method == 'POST':
+        return redirect('/feedback/')
 
     return render(request, 'student_work/feedback.html', context)
 
