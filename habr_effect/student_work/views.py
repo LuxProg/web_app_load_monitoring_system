@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from .models import Dip_work
 # Create your views here.
 
 menu = ['Главная', 'Обратная связь', 'Кто мы?']
@@ -11,12 +12,6 @@ context = {
         'title': 'Главная страница',
     }
 
-url = {
-    "index_url": "/",
-    "whoweare": "/whoweare/",
-    "feedback": "/feedback/",
-}
-
 # context = {
 #     'menu_main': {'name': 'Главная', 'url': '/'},
 #     'menu_whoweare': {'name': 'Кто мы?', 'url': '/whoweare/'},
@@ -25,6 +20,11 @@ url = {
 
 
 def index(request):
+
+    articles = Dip_work.objects.all()
+    context = {
+        'articles': articles
+    }
 
     if request.method == 'POST':
         return redirect('/')
