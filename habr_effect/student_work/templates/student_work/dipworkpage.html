@@ -1,0 +1,21 @@
+{% extends "student_work/base.html" %}
+
+{% block title %}Обратная связь{% endblock %}
+
+{% block content %}
+<p>Тут будет форма, содержимое отправляется в базу</p>
+<body>
+
+    <div class="container">
+
+        <div class="article-detail-container">
+            <h2 class="article-detail-title">{{ article.title }}</h2>
+            <p class="article-detail-description">{{ article.content }}</p>
+            <p class="article-detail-author">Автор: {{ article.writer }}</p>
+        </div>
+
+    </div>
+
+</body>
+{% endblock %}
+

@@ -15,11 +15,11 @@ li {
 }
 li button {
     padding: 10px 20px;
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
+    background-color: #000; /* Черный цвет фона кнопки */
+    color: #fff; /* Белый цвет текста в кнопке */
     border: none;
     border-radius: 5px;
-    font-family: Arial, sans-serif; /* Specify the font-family */
+    font-family: Arial, sans-serif;
     cursor: pointer;
 }
 .container {
@@ -27,10 +27,46 @@ li button {
     margin: 0 auto;
 }
 .article-container {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.article-title a {
+    text-decoration: none;
+    color: #333;
+}
+
+* Стили для названия статьи */
+.article-detail-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+/* Стили для описания статьи */
+.article-detail-description {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+/* Стили для автора статьи */
+.article-detail-author {
+    font-style: italic;
+    color: #666;
+    margin-top: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit; /* чтобы ссылки наследовали цвет текста */
+    background-color: transparent;
+    transition: background-color 0.5s; /* задаем переход для изменения фона */
+}
+
+.article-container h2 a:hover {
+    background-color: #ccc; /* Цвет фона при наведении */
 }

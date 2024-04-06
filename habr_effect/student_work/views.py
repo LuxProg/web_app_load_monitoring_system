@@ -10,6 +10,7 @@ context = {
         'menu_feedback': 'Обратная связь',
         'menu_whoweare': 'Кто мы?',
         'title': 'Главная страница',
+        'articles': '',
     }
 
 # context = {
@@ -52,8 +53,11 @@ def feedback(request):
     return render(request, 'student_work/feedback.html', context)
 
 
-def dip_work(request, dip_id):
+def dip_work_page(request, dip_id):
+    article = Dip_work.objects.get(id=dip_id)
 
-    html = f'<h1>Страница приложения student_work</h1><p>{dip_id}</p>'
+    context = {
+        'article': article
+    }
 
-    return HttpResponse(html)
+    return render(request, 'student_work/dipworkpage.html', context)
