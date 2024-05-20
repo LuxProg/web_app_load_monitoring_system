@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Dip_work
 # Create your views here.
 
@@ -12,12 +12,6 @@ context = {
         'title': 'Главная страница',
         'articles': '',
     }
-
-# context = {
-#     'menu_main': {'name': 'Главная', 'url': '/'},
-#     'menu_whoweare': {'name': 'Кто мы?', 'url': '/whoweare/'},
-#     'menu_feedback': {'name': 'Обратная связь', 'url': '/feedback/'},
-# }
 
 
 def index(request):
@@ -54,8 +48,8 @@ def feedback(request):
 
 
 def dip_work_page(request, dip_id):
-    article = Dip_work.objects.get(id=dip_id)
 
+    article = get_object_or_404(Dip_work, id=dip_id)
     context = {
         'article': article
     }

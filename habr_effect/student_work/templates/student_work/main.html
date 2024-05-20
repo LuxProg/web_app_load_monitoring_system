@@ -5,7 +5,7 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-    <h1>Тут будет список статей</h1>
+    <h1></h1>
     {% for article in articles %}
         <div class="article-container">
             <h2><a href="{% url 'dwp' article.id %}">{{ article.title }}</a></h2>

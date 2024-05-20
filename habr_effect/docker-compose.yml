@@ -1,0 +1,77 @@
+services:
+  postgres:
+    container_name: db_postgres
+    build:
+      context: ./docker/postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hostpidor
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  django_project:
+    container_name: django
+    image: django
+    build:
+      context: .
+    depends_on: 
+      - postgres
+    volumes:
+      - static_volume:/habr_effect/static
+      - media_volume:/habr_effect/media
+    env_file:
+      - .env
+    command: >
+      bash -c "./manage.py collectstatic --noinput && ./manage.py migrate && gunicorn -b 0.0.0.0:8000 habr_effect.wsgi:application"
+  
+  nginx:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./docker/nginx
+    container_name: nginx
+    image: nginx
+    volumes:
+      - static_volume:/django_project/static
+      - media_volume:/django_project/media
+    depends_on:
+      - django_project
+    ports:
+      - "80:80"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:
+    static_volume:
+    media_volume:
+    grafana_data:
+    prometheus_data:
