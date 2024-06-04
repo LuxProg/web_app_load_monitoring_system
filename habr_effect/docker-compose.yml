@@ -1,18 +1,20 @@
 services:
   postgres:
     container_name: db_postgres
+    image: db_postgres
     build:
       context: ./docker/postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: hostpidor
       PGDATA: /data/postgres
+       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
        - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - monitoring
     restart: unless-stopped
 
   django_project:
@@ -20,7 +22,9 @@ services:
     image: django
     build:
       context: .
-    depends_on: 
+    expose:
+      - 8000
+    depends_on:
       - postgres
     volumes:
       - static_volume:/habr_effect/static
@@ -29,10 +33,11 @@ services:
       - .env
     command: >
       bash -c "./manage.py collectstatic --noinput && ./manage.py migrate && gunicorn -b 0.0.0.0:8000 habr_effect.wsgi:application"
-  
+    networks:
+      - monitoring
+
   nginx:
     build:
-      dockerfile: ./Dockerfile
       context: ./docker/nginx
     container_name: nginx
     image: nginx
@@ -43,6 +48,8 @@ services:
       - django_project
     ports:
       - "80:80"
+    networks:
+      - monitoring
 
   grafana:
     container_name: grafana
@@ -63,9 +70,11 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
+    networks:
+      - monitoring
 
 networks:
-  postgres:
+  monitoring:
     driver: bridge
 
 volumes:
